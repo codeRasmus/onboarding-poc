@@ -1,0 +1,47 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Onboarding</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1>Onboarding af bruger</h1>
+        <p>Se og simuler onboarding</p>
+        <p>
+          <a style="color: #94a3b8" href="admin.html">Til admin-view →</a>
+        </p>
+        <div class="user-switcher">
+          <label for="user-select">Simuler onboarding som</label>
+          <select id="user-select">
+            <option value="">Indlæser brugere...</option>
+          </select>
+        </div>
+      </header>
+      <main>
+        <section class="card" id="progress-card">
+          <h2>Progression</h2>
+          <div id="progress-bar-wrapper">
+            <div id="progress-bar">
+              <span id="progress-bar-fill"></span>
+            </div>
+            <span id="progress-text">Indlæser...</span>
+          </div>
+        </section>
+
+        <section class="card" id="tasks-card">
+          <h2>Onboarding-trin</h2>
+          <ul id="task-list" class="task-list"></ul>
+        </section>
+        <button id="reset-btn" class="reset-btn">Nulstil onboarding</button>
+      </main>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<?php
+$db = getDbConn(); // Databaseforbindelsen
+$userId = getUserHandler()->getObjectId(); // Aktuel bruger
+$xpGain = 1000; // XP som brugeren skal få
+$actionType = 'cheating'; // Handlingstype
+
+// Hent brugerens nuværende XP fra databasen
+$sqlXpCheck = "SELECT total_xp FROM metazo.user_xp WHERE user_id = ? LIMIT 1";
+$userXp = $db->GetRow($sqlXpCheck, [$userId]);
+$currentXp = $userXp ? (int)$userXp['total_xp'] : 0;
+
+$newTotalXp = $currentXp + $xpGain; // Beregn ny samlet XP og niveau
+$newLevel   = floor(sqrt($newTotalXp)); // Niveauberegning: kvadratroden af XP
+
+// Opdater eller indsæt XP i databasen
+if ($userXp) {
+    $sqlXpUpdate = "UPDATE metazo.user_xp 
+                    SET total_xp = ?, level = ?, last_updated = NOW() 
+                    WHERE user_id = ?";
+    $db->Execute($sqlXpUpdate, [$newTotalXp, $newLevel, $userId]);
+} else {
+    $sqlXpInsert = "INSERT INTO metazo.user_xp (user_id, total_xp, level, last_updated) 
+                    VALUES (?, ?, ?, NOW())";
+    $db->Execute($sqlXpInsert, [$userId, $newTotalXp, $newLevel]);
+}
+
+// Log i XP-loggen
+$sqlXpLog = "INSERT INTO metazo.user_xp_log (user_id, action_type, target_id, xp_amount, created_at)
+             VALUES (?, ?, ?, ?, NOW())";
+$db->Execute($sqlXpLog, [$userId, $actionType, $pageId, $xpGain]);
+
+// Returnér JSON med info om handlingen
+echo json_encode([
+    'success' => true,
+    'action'  => $actionType,
+    'userId'  => $userId,
+    'xpGain'  => $xpGain,
+    'xp'      => $newTotalXp,
+    'level'   => $newLevel
+]);

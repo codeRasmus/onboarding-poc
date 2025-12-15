@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Onboarding journeys</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1>Onboarding overview</h1>
+        <p>Opret og se onboarding-forløb.</p>
+        <p>
+          <a style="color: #94a3b8" href="index.html">← Til bruger-view</a>
+        </p>
+      </header>
+
+      <main>
+        <section class="card">
+          <h2>Overblik over onboarding</h2>
+          <div id="overview-container">Indlæser...</div>
+        </section>
+        <section class="card">
+          <h2>Opret ny journey</h2>
+          <form id="journey-form">
+            <div class="form-group">
+              <label for="journey-name">Navn</label>
+              <input id="journey-name" type="text" required />
+            </div>
+
+            <div class="form-group">
+              <label for="journey-description">Beskrivelse</label>
+              <textarea id="journey-description" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Trin (tasks)</label>
+              <div id="tasks-container"></div>
+              <button type="button" id="add-task-btn">+ Tilføj trin</button>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit">Gem journey</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Tildel journeys</h2>
+
+          <div class="form-group">
+            <label for="assign-user-select">Vælg bruger til tildeling</label>
+            <select id="assign-user-select">
+              <option value="">Vælg bruger</option>
+            </select>
+            <p class="helper-text" id="assign-helper-text">
+              Når du har valgt en bruger her, kan du tildele en journey
+              nedenfor.
+            </p>
+          </div>
+
+          <div id="journeys-list"></div>
+          <div class="form-group">
+            <button type="button" id="reset-journeys-btn" class="danger-btn">
+              Slet alle journeys
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
